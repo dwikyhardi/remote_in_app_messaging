@@ -43,11 +43,16 @@ class IamImage extends StatelessWidget {
 ///
 /// Hosts can call this directly when they want the same source/format
 /// detection without instantiating an [IamImage].
+///
+/// [errorBuilder] is forwarded to the underlying raster `Image.network` /
+/// `Image.asset` (it has no effect on the SVG branch). When omitted, a
+/// defensive built-in error tile is used.
 Widget buildIamImage({
   required String path,
   BoxFit fit = BoxFit.contain,
   double? height,
   double? width,
+  ImageErrorWidgetBuilder? errorBuilder,
 }) {
   final isNetwork = path.startsWith('http://') || path.startsWith('https://');
   final isSvg = path.toLowerCase().endsWith('.svg');
@@ -72,13 +77,16 @@ Widget buildIamImage({
           );
   }
 
+  final effErrorBuilder =
+      errorBuilder ?? (_, _, _) => _errorTile(height: height, width: width);
+
   return isNetwork
       ? Image.network(
           path,
           fit: fit,
           height: height,
           width: width,
-          errorBuilder: (_, _, _) => _errorTile(height: height, width: width),
+          errorBuilder: effErrorBuilder,
           loadingBuilder: (context, child, progress) {
             if (progress == null) return child;
             final expected = progress.expectedTotalBytes;
@@ -101,7 +109,7 @@ Widget buildIamImage({
           fit: fit,
           height: height,
           width: width,
-          errorBuilder: (_, _, _) => _errorTile(height: height, width: width),
+          errorBuilder: effErrorBuilder,
           frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
             if (wasSynchronouslyLoaded || frame != null) return child;
             return _placeholder(height: height, width: width);

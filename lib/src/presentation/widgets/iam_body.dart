@@ -5,6 +5,7 @@ import '../../domain/entities/iam_cta.dart';
 import '../../domain/entities/iam_cta_ext.dart';
 import '../../domain/entities/iam_style.dart';
 import 'iam_cta_button.dart';
+import 'iam_image.dart';
 import 'iam_style_ext.dart';
 import 'iam_style_resolver.dart';
 
@@ -424,11 +425,11 @@ class IamBody extends StatelessWidget {
     final effRadius =
         imageBorderRadius ?? js?.imageBorderRadius?.toBorderRadius();
 
-    Widget img = Image.network(
-      url,
+    var img = buildIamImage(
+      path: url,
       fit: effFit,
       height: effHeight,
-      errorBuilder: imageErrorBuilder ?? (_, _, _) => const SizedBox.shrink(),
+      errorBuilder: imageErrorBuilder,
     );
     if (effRadius != null) {
       img = ClipRRect(borderRadius: effRadius, child: img);
