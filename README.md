@@ -121,6 +121,14 @@ Full reference docs live under [`docs/`](./docs):
 - [Public API](docs/api.md) — `IamService` surface and the full
   `IamHostBindings` contract.
 
+## Demo
+
+A 1-minute walkthrough of the package in action:
+
+[![Watch the demo on YouTube](https://img.youtube.com/vi/WpuLo9xHrmo/hqdefault.jpg)](https://youtube.com/shorts/WpuLo9xHrmo)
+
+> ▶︎ <https://youtube.com/shorts/WpuLo9xHrmo>
+
 ## Example app
 
 The [`example/`](./example) directory contains a runnable demo covering:
