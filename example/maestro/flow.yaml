@@ -1,0 +1,25 @@
+# iOS entrypoint for the `remote_in_app_messaging` Maestro demo.
+#
+# Targets the iOS bundle identifier from
+# `example/ios/Runner.xcodeproj/project.pbxproj`.
+#
+# Usage (from the repo root):
+#   cd example
+#   fvm flutter run -d "iPhone 17 Pro"          # build + install once
+#   # then, in another terminal:
+#   maestro test    example/maestro/flow.yaml   # run + assertions only
+#   maestro record  example/maestro/flow.yaml   # run + screen recording
+
+appId: com.example.remoteInAppMessagingExample
+name: remote_in_app_messaging — iOS guided tour
+tags:
+  - demo
+  - record
+  - ios
+---
+# `_steps.yaml` is platform-agnostic — pass the iOS bundle id through so its
+# own `appId: ${APP_ID}` config section resolves correctly.
+- runFlow:
+    file: _steps.yaml
+    env:
+      APP_ID: com.example.remoteInAppMessagingExample

@@ -1,0 +1,355 @@
+{
+  "version": 1,
+  "messages": [
+    {
+      "id": "welcome_modal",
+      "enabled": true,
+      "layout": "modal",
+      "showCloseButton": false,
+      "trigger": {
+        "type": "on_launch",
+        "delayMs": 300
+      },
+      "targeting": {
+        "platforms": [
+          "android",
+          "ios"
+        ],
+        "envs": [
+          "development",
+          "production"
+        ]
+      },
+      "frequency": {
+        "maxImpressions": 1000,
+        "dismissBehavior": "allow_retry"
+      },
+      "variants": [
+        {
+          "weight": 50,
+          "content": {
+            "title": "Welcome 👋 (variant A)",
+            "body": "[A/B variants] This modal was shown via an on_launch trigger.",
+            "imageUrl": "https://www.signal.co.jp/images/english/projects/japan/01.jpg",
+            "primaryCta": {
+              "label": "Got it",
+              "action": "close"
+            },
+            "style": {
+              "imageBorderRadius": {
+                "all": 16
+              }
+            }
+          }
+        },
+        {
+          "weight": 50,
+          "content": {
+            "title": "Hello there! (variant B)",
+            "body": "[A/B variants] are picked sticky per user + message.",
+            "imageUrl": "https://www.signal.co.jp/images/english/projects/japan/03.jpg",
+            "primaryCta": {
+              "label": "Got it",
+              "action": "close"
+            },
+            "style": {
+              "imageBorderRadius": {
+                "all": 16
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "details_route_sheet",
+      "enabled": true,
+      "layout": "bottom_sheet",
+      "showCloseButton": false,
+      "trigger": {
+        "type": "on_route",
+        "routePath": "/details"
+      },
+      "targeting": {
+        "platforms": [
+          "android",
+          "ios"
+        ]
+      },
+      "frequency": {
+        "maxImpressions": 999,
+        "dismissBehavior": "do_not_show_again"
+      },
+      "variants": [
+        {
+          "weight": 100,
+          "content": {
+            "title": "Pro tip",
+            "body": "You reached the details route. Try the primary CTA to deep-link back home.",
+            "primaryCta": {
+              "label": "Back home",
+              "action": "deep_link",
+              "url": "/"
+            },
+            "secondaryCta": {
+              "label": "Dismiss",
+              "action": "close"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "event_fullscreen",
+      "enabled": true,
+      "layout": "fullscreen",
+      "trigger": {
+        "type": "on_event",
+        "eventName": "promo_unlocked",
+        "eventParamsMatch": {
+          "tier": "gold"
+        }
+      },
+      "targeting": {
+        "minAppVersion": "0.1.0",
+        "roles": []
+      },
+      "frequency": {
+        "maxImpressions": 2,
+        "dismissBehavior": "allow_retry"
+      },
+      "variants": [
+        {
+          "weight": 100,
+          "content": {
+            "title": "🎉 Gold promo unlocked",
+            "body": "Triggered by the `promo_unlocked` event with {tier: gold}. Open the pub.dev page to learn more.",
+            "primaryCta": {
+              "label": "Open pub.dev",
+              "action": "external_url",
+              "url": "https://pub.dev/packages/remote_in_app_messaging"
+            },
+            "secondaryCta": {
+              "label": "Close",
+              "action": "close"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "promo_image_only",
+      "enabled": true,
+      "layout": "image_only_modal",
+      "trigger": {
+        "type": "on_event",
+        "eventName": "show_image_modal"
+      },
+      "targeting": {
+        "platforms": [
+          "android",
+          "ios"
+        ]
+      },
+      "frequency": {
+        "maxImpressions": 999,
+        "dismissBehavior": "allow_retry"
+      },
+      "variants": [
+        {
+          "weight": 100,
+          "content": {
+            "imageUrl": "assets/parrot.jpg",
+            "primaryCta": {
+              "label": "Open",
+              "action": "deep_link",
+              "url": "/details"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "show_modal_demo",
+      "enabled": true,
+      "layout": "modal",
+      "showCloseButton": false,
+      "trigger": {
+        "type": "on_event",
+        "eventName": "show_modal"
+      },
+      "targeting": {
+        "platforms": [
+          "android",
+          "ios"
+        ]
+      },
+      "frequency": {
+        "maxImpressions": 999,
+        "dismissBehavior": "allow_retry"
+      },
+      "variants": [
+        {
+          "weight": 100,
+          "content": {
+            "title": "Modal layout",
+            "body": "Triggered by the `show_modal` event. Primary CTA opens an external URL.",
+            "primaryCta": {
+              "label": "Open pub.dev",
+              "action": "external_url",
+              "url": "https://pub.dev/packages/remote_in_app_messaging"
+            },
+            "secondaryCta": {
+              "label": "Close",
+              "action": "close"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "show_bottom_sheet_demo",
+      "enabled": true,
+      "showCloseButton": false,
+      "layout": "bottom_sheet",
+      "trigger": {
+        "type": "on_event",
+        "eventName": "show_bottom_sheet"
+      },
+      "targeting": {
+        "platforms": [
+          "android",
+          "ios"
+        ]
+      },
+      "frequency": {
+        "maxImpressions": 999,
+        "dismissBehavior": "allow_retry"
+      },
+      "variants": [
+        {
+          "weight": 100,
+          "content": {
+            "title": "Bottom sheet layout",
+            "body": "Triggered by the `show_bottom_sheet` event. Tap the CTA to dismiss.",
+            "primaryCta": {
+              "label": "Got it",
+              "action": "close"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "show_fullscreen_demo",
+      "enabled": true,
+      "layout": "fullscreen",
+      "trigger": {
+        "type": "on_event",
+        "eventName": "show_fullscreen"
+      },
+      "targeting": {
+        "platforms": [
+          "android",
+          "ios"
+        ]
+      },
+      "frequency": {
+        "maxImpressions": 999,
+        "dismissBehavior": "allow_retry"
+      },
+      "variants": [
+        {
+          "weight": 100,
+          "content": {
+            "title": "Fullscreen layout",
+            "body": "Triggered by the `show_fullscreen` event. Primary CTA deep-links to /details.",
+            "primaryCta": {
+              "label": "Go to details",
+              "action": "deep_link",
+              "url": "/details"
+            },
+            "secondaryCta": {
+              "label": "Close",
+              "action": "close"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "show_image_modal_external_demo",
+      "enabled": true,
+      "layout": "image_only_modal",
+      "trigger": {
+        "type": "on_event",
+        "eventName": "show_image_modal_external"
+      },
+      "targeting": {
+        "platforms": [
+          "android",
+          "ios"
+        ]
+      },
+      "frequency": {
+        "maxImpressions": 999,
+        "dismissBehavior": "allow_retry"
+      },
+      "variants": [
+        {
+          "weight": 100,
+          "content": {
+            "imageUrl": "assets/parrot.jpg",
+            "primaryCta": {
+              "label": "Open pub.dev",
+              "action": "external_url",
+              "url": "https://pub.dev/packages/remote_in_app_messaging"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "targeting_demo",
+      "enabled": true,
+      "layout": "bottom_sheet",
+      "showCloseButton": false,
+      "trigger": {
+        "type": "on_event",
+        "eventName": "check_targeting"
+      },
+      "targeting": {
+        "platforms": [
+          "android",
+          "ios"
+        ],
+        "envs": [
+          "development"
+        ],
+        "organizations": [
+          "acme"
+        ],
+        "roles": [
+          "admin"
+        ]
+      },
+      "frequency": {
+        "maxImpressions": 999,
+        "dismissBehavior": "allow_retry"
+      },
+      "variants": [
+        {
+          "weight": 100,
+          "content": {
+            "title": "Targeted only to ACME admins in dev",
+            "body": "Change targeting from the demo controls to see this appear/disappear.",
+            "primaryCta": {
+              "label": "OK",
+              "action": "close"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,239 @@
+# Shared Maestro steps for the `remote_in_app_messaging` demo.
+#
+# Do NOT run this file directly — it is loaded as a subflow by:
+#   - flow.yaml          (iOS simulator entrypoint)
+#   - flow_android.yaml  (Android emulator entrypoint)
+#
+# Maestro requires every flow file (including subflows) to declare an
+# `appId` config section. Both entrypoints inject their platform-specific
+# bundle id via the `APP_ID` env variable on `runFlow`, so this file stays
+# platform-agnostic.
+#
+# Walks through every IamLayout (modal / bottom_sheet / fullscreen /
+# image_only_modal), every IamTriggerType (on_launch / on_route / on_event)
+# and every IamActionType (close / deep_link / external_url) so the recording
+# captures the full surface area of the package in one take.
+
+appId: ${APP_ID}
+---
+# 1. Cold launch — `on_launch` trigger fires and shows `welcome_modal`.
+- launchApp:
+    clearState: true
+    stopApp: true
+
+# Welcome modal (on_launch). Variant A or B is selected sticky-by-userId,
+# both share the same CTA labels. We target stable Semantics identifiers
+# exposed by `IamBody` (see lib/src/presentation/widgets/iam_body.dart)
+# instead of brittle visible text so the recording stays variant-proof.
+- extendedWaitUntil:
+    visible:
+      id: "iam-body-content"
+    timeout: 10000
+- extendedWaitUntil:
+    visible:
+      id: "iam-image"
+    timeout: 10000
+- takeScreenshot: 01_welcome_modal_on_launch
+- extendedWaitUntil:
+    visible:
+      id: "iam-primary-cta"
+    timeout: 10000
+- retry:
+    maxRetries: 3
+    commands:
+      - tapOn:
+          id: "iam-primary-cta"
+          retryTapIfNoChange: true
+
+
+# 2. Home screen sanity check.
+- assertVisible: "remote_in_app_messaging demo"
+- assertVisible: "Triggers"
+
+# 3. Triggers — on_event with matching params (gold tier → fullscreen promo).
+#    `event_fullscreen` exposes secondaryCta="Close" → use the
+#    `iam-secondary-cta` Semantics id instead of the visible label.
+- tapOn: "on_event promo_unlocked {tier: gold}"
+- extendedWaitUntil:
+    visible:
+      id: "iam-title"
+    timeout: 5000
+- takeScreenshot: 02_event_fullscreen_gold
+- tapOn:
+    id: "iam-secondary-cta"
+
+# 4. Triggers — on_event with non-matching params (silver tier → no message).
+#    Demonstrates `eventParamsMatch` filtering. We assert the home title is
+#    still visible right after, proving nothing popped up.
+- tapOn: "on_event {tier: silver} (params miss)"
+- assertVisible: "remote_in_app_messaging demo"
+- takeScreenshot: 03_event_params_miss
+
+# 5. Triggers — on_route by navigating to /details.
+#    `details_route_sheet` exposes secondaryCta="Dismiss" → swipe from
+#    `iam-secondary-cta` to dismiss the sheet.
+- tapOn: "on_route → push /details"
+- extendedWaitUntil:
+    visible:
+      id: "iam-title"
+    timeout: 5000
+- takeScreenshot: 04_route_bottom_sheet
+- swipe:
+    from:
+      id: "iam-secondary-cta"
+    direction: DOWN
+- tapOn: "Back"
+
+# 6. Layouts — each of the 4 IamLayout values fired via on_event.
+- scrollUntilVisible:
+    element:
+      text: "Layouts"
+    direction: DOWN
+    timeout: 5000
+
+# 6a. modal layout. The home-screen "modal" button has no Semantics id
+#     so we still match its visible label, but the modal contents are
+#     targeted via Semantics ids exposed by `IamBody`.
+- tapOn: "modal"
+- extendedWaitUntil:
+    visible:
+      id: "iam-title"
+    timeout: 5000
+- takeScreenshot: 05_layout_modal
+- tapOn:
+    id: "iam-secondary-cta"
+
+# 6b. bottom_sheet layout. primaryCta="Got it" → tap `iam-primary-cta`.
+- tapOn: "bottom_sheet"
+- extendedWaitUntil:
+    visible:
+      id: "iam-title"
+    timeout: 5000
+- takeScreenshot: 06_layout_bottom_sheet
+- tapOn:
+    id: "iam-primary-cta"
+
+# 6c. fullscreen layout. secondaryCta="Close" → tap `iam-secondary-cta`.
+- tapOn: "fullscreen"
+- extendedWaitUntil:
+    visible:
+      id: "iam-title"
+    timeout: 5000
+- takeScreenshot: 07_layout_fullscreen
+- tapOn:
+    id: "iam-secondary-cta"
+
+# 6d. image_only_modal layout. The image-only renderer is implemented in
+#     `image_only_modal_iam_renderer.dart` and does NOT go through
+#     `IamBody`, so no `iam-*` Semantics ids are exposed. Keep visible
+#     selectors here.
+- tapOn: "image_only_modal"
+- assertVisible:
+    point: 6%,23%
+- takeScreenshot: 08_layout_image_only
+- tapOn: "Close"
+
+# 7. CTA actions — surface the external_url variant via image_only_modal.
+- scrollUntilVisible:
+    element: "close (targeted bottom_sheet)"
+    direction: DOWN
+    timeout: 5000
+
+# 7.a CTA external_url (modal). primaryCta="Open pub.dev".
+- tapOn: "external_url (modal)"
+- extendedWaitUntil:
+    visible:
+      id: "iam-title"
+    timeout: 5000
+- takeScreenshot: 9_cta_external_url
+- tapOn:
+    id: "iam-primary-cta" # demo no-op; closes the modal
+
+# 7.b CTA deep_link (fullscreen). secondaryCta="Close".
+- tapOn: "deep_link (fullscreen)"
+- assertVisible:
+    id: "iam-title"
+- tapOn:
+    id: "iam-secondary-cta"
+
+# 7.c CTA external_url (image_only). image_only_modal renderer doesn't
+#     expose iam-* Semantics ids → keep point/text selectors.
+- tapOn: "external_url (image_only)"
+- extendedWaitUntil:
+    visible:
+      point: 6%,23%
+    timeout: 10000
+- tapOn: "Close"
+
+# 7.d CTA close (targeted bottom_sheet). primaryCta="OK". match path: ACME admin in dev.
+- tapOn: "close (targeted bottom_sheet)"
+- assertVisible:
+    id: "iam-title"
+- takeScreenshot: 10_targeting_match
+- tapOn:
+    id: "iam-primary-cta"
+
+# 8. Targeting — miss path: change `env` away from `development` and re-fire.
+- scrollUntilVisible:
+    element:
+      text: ".*env.*"
+    direction: DOWN
+    timeout: 5000
+- tapOn:
+    text: ".*development.*"
+    index: 0
+- tapOn: ".*production.*"
+- scrollUntilVisible:
+    element:
+      text: "CTA actions"
+    direction: UP
+    timeout: 5000
+- tapOn: "close (targeted bottom_sheet)"
+# No bottom sheet should appear — assert the home is still visible.
+- assertVisible: "Targeting playground"
+- takeScreenshot: 11_targeting_miss
+
+# Restore `env` to `development` so subsequent steps are deterministic.
+- scrollUntilVisible:
+    element:
+      text: ".*env.*"
+    direction: DOWN
+    timeout: 5000
+- tapOn:
+    text: ".*production.*"
+- tapOn: ".*development.*"
+
+# 9. Remote Config refresh — title flips between variants A/B.
+- scrollUntilVisible:
+    element:
+      text: "Remote Config"
+    direction: UP
+    timeout: 5000
+- tapOn: "Refresh & invalidate cache"
+- extendedWaitUntil:
+    visible:
+      text: "Remote Config refreshed & cache invalidated"
+    timeout: 5000
+- takeScreenshot: 12_remote_config_refreshed
+
+# 10. Global kill-switch — flip and re-fire an event to prove nothing renders.
+- tapOn:
+    id: "global_kill_switch_toggle"
+    retryTapIfNoChange: true
+- tapOn: "close (targeted bottom_sheet)"
+- assertVisible: "remote_in_app_messaging demo"
+- takeScreenshot: 13_kill_switch_engaged
+# Re-enable so the recording ends in a clean state.
+- tapOn:
+    id: "global_kill_switch_toggle"
+    retryTapIfNoChange: true
+
+# 11. Image-only preview — covers the standalone IamImage widget.
+- scrollUntilVisible:
+    element: "Preview IamImage in a Dialog"
+    direction: DOWN
+    timeout: 5000
+- tapOn: "Preview IamImage in a Dialog"
+- takeScreenshot: 14_iam_image_preview
+- tapOn:
+    point: 0%,7%

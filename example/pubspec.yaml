@@ -1,0 +1,25 @@
+name: remote_in_app_messaging_example
+description: Example app for the remote_in_app_messaging package.
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: "^3.8.0"
+  flutter: ">=3.29.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  remote_in_app_messaging:
+    path: ../
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  pedantic_mono: ^1.34.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/remote_messages.json
+    - assets/parrot.jpg

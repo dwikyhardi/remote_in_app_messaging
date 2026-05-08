@@ -1,0 +1,25 @@
+# Android entrypoint for the `remote_in_app_messaging` Maestro demo.
+#
+# Targets the Android applicationId from
+# `example/android/app/build.gradle.kts`.
+#
+# Usage (from the repo root):
+#   cd example
+#   fvm flutter run -d Pixel_9                          # build + install once
+#   # then, in another terminal:
+#   maestro test    example/maestro/flow_android.yaml   # run + assertions only
+#   maestro record  example/maestro/flow_android.yaml   # run + screen recording
+
+appId: com.example.remote_in_app_messaging_example
+name: remote_in_app_messaging — Android guided tour
+tags:
+  - demo
+  - record
+  - android
+---
+# `_steps.yaml` is platform-agnostic — pass the Android applicationId through
+# so its own `appId: ${APP_ID}` config section resolves correctly.
+- runFlow:
+    file: _steps.yaml
+    env:
+      APP_ID: com.example.remote_in_app_messaging_example
