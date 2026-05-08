@@ -149,3 +149,7 @@ fvm flutter run
 Published on [pub.dev](https://pub.dev/packages/remote_in_app_messaging).
 Backward-compatible by policy: new fields are always optional with a safe
 default — existing JSON keeps working across versions.
+
+## License
+
+This project is licensed under the MIT License — see the [`LICENSE`](./LICENSE) file for details.
