@@ -1,3 +1,9 @@
+## Unreleased
+
+### 0.1.1
+- `IamBody` now renders the image slot through `buildIamImage`, gaining native support for asset paths, `http(s)` URLs and `.svg` (raster + vector) — previously it only handled `Image.network`. Behavior for `imageUrl` pointing at a network raster image is unchanged; `imageBuilder` and `imageErrorBuilder` overrides are still honored.
+- `buildIamImage` exposes an optional `errorBuilder` parameter (raster paths only); SVG rendering and existing call sites are unaffected.
+
 ## 0.1.0 — 2026-05-08
 
 ### Added

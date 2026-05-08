@@ -1,6 +1,6 @@
 name: remote_in_app_messaging
 description: Host-agnostic, JSON-driven in-app messaging for Flutter. Drive modal, bottom sheet and fullscreen messages from a remote JSON payload (e.g. Firebase Remote Config) with targeting, A/B variants and frequency caps.
-version: 0.1.0
+version: 0.1.1
 homepage: https://github.com/dwikyhardi/remote_in_app_messaging
 repository: https://github.com/dwikyhardi/remote_in_app_messaging
 

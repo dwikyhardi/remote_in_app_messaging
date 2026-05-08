@@ -58,7 +58,7 @@
 
 ```yaml
 dependencies:
-  remote_in_app_messaging: ^0.1.0
+  remote_in_app_messaging: ^0.1.1
 ```
 
 Requirements: **Flutter ≥ 3.29**, **Dart ^3.8**.
