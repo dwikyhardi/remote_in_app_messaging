@@ -65,7 +65,7 @@ Requirements: **Flutter ≥ 3.29**, **Dart ^3.8**.
 
 ## Quick taste
 
-A minimal setup looks like this — see the [Quick start](docs/quick-start.md)
+A minimal setup looks like this — see the [Quick start](doc/quick-start.md)
 for the full walkthrough.
 
 ```dart
@@ -105,20 +105,20 @@ And the smallest useful payload:
 
 ## Documentation
 
-Full reference docs live under [`docs/`](./docs):
+Full reference docs live under [`docs/`](doc):
 
-- [Quick start (5 minutes)](docs/quick-start.md) — implement
+- [Quick start (5 minutes)](doc/quick-start.md) — implement
   `IamHostBindings`, initialize `IamService`, wire triggers.
-- [Triggers](docs/triggers.md) — `onAppLaunch` / `onRoute` / `onEvent` and
+- [Triggers](doc/triggers.md) — `onAppLaunch` / `onRoute` / `onEvent` and
   where to call them from.
-- [JSON schema](docs/json-schema.md) — minimum and full payload, layouts
+- [JSON schema](doc/json-schema.md) — minimum and full payload, layouts
   (including `image_only_modal`), enums, optional fields.
-- [Targeting, frequency & schedule](docs/targeting-and-frequency.md) —
+- [Targeting, frequency & schedule](doc/targeting-and-frequency.md) —
   audience filters, rate limits, time windows, and CTA actions.
-- [Styling via JSON](docs/styling.md) — `IamBodyStyle` /
+- [Styling via JSON](doc/styling.md) — `IamBodyStyle` /
   `IamCtaButtonStyle` fields, JSON style primitives, enum values,
   precedence rules.
-- [Public API](docs/api.md) — `IamService` surface and the full
+- [Public API](doc/api.md) — `IamService` surface and the full
   `IamHostBindings` contract.
 
 ## Demo
