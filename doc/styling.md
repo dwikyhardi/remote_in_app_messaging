@@ -159,7 +159,7 @@ value (if provided) and then to the built-in default.
 | `showCloseButton`         | `bool`                  | `true`                                    |
 | `closeIconColor`          | `#rrggbb` / `#aarrggbb` | theme default                             |
 | `closeButtonAlignment`    | `IamAlignment`          | `top_right`                               |
-| `closeButtonTooltip`      | `string`                | `"Close"`                                 |
+| `closeButtonTooltip`      | `string`                | App locale's close tooltip (`"Close"` in English) |
 | `primaryCtaStyle`         | `IamCtaButtonStyle`     | —                                         |
 | `secondaryCtaStyle`       | `IamCtaButtonStyle`     | —                                         |
 | `ctaMinimumSize`          | `IamSize`               | `Size.fromHeight(44)`                     |

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../domain/entities/iam_content.dart';
 import '../../domain/entities/iam_cta.dart';
@@ -178,7 +178,8 @@ class IamBody extends StatelessWidget {
 
   /// Tooltip for the default close button.
   ///
-  /// Falls back to [IamContent.style]`.closeButtonTooltip` then to `'Close'`.
+  /// Falls back to [IamContent.style]`.closeButtonTooltip`, then to the
+  /// ambient [MaterialLocalizations.closeButtonTooltip].
   final String? closeButtonTooltip;
 
   /// Full custom builder for the close button.
@@ -349,7 +350,7 @@ class IamBody extends StatelessWidget {
     final effTooltip = resolveStyle<String>(
       closeButtonTooltip,
       js?.closeButtonTooltip,
-      'Close',
+      MaterialLocalizations.of(context).closeButtonTooltip,
     );
 
     // When the body shows a full-bleed image at the top, the bare close icon

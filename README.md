@@ -5,7 +5,7 @@
 > payload (e.g. Firebase Remote Config) — with targeting, A/B variants,
 > frequency caps and full visual styling from JSON.
 >
-> Intentionally independent of `firebase_in_app_messaging`.
+> The host supplies remote configuration, analytics, and navigation.
 
 [![pub package](https://img.shields.io/pub/v/remote_in_app_messaging.svg)](https://pub.dev/packages/remote_in_app_messaging)
 
@@ -58,10 +58,25 @@
 
 ```yaml
 dependencies:
-  remote_in_app_messaging: ^0.1.1
+  remote_in_app_messaging: ^0.2.0
 ```
 
-Requirements: **Flutter ≥ 3.29**, **Dart ^3.8**.
+Requirements: **Flutter ≥ 3.47**, **Dart ≥ 3.13**.
+Development and verification use **FVM Flutter 3.50.0**.
+
+### Local integration
+
+For local development, use a path override in a host app:
+
+```yaml
+dependency_overrides:
+  remote_in_app_messaging:
+    path: ../remote_in_app_messaging
+```
+
+Run `fvm flutter pub get` in the host after adding the override. See
+[local SDK integration](doc/local-integration.md) for theme, localization,
+and public UI type compatibility details.
 
 ## Quick taste
 
@@ -120,6 +135,7 @@ Full reference docs live under [`docs/`](doc):
   precedence rules.
 - [Public API](doc/api.md) — `IamService` surface and the full
   `IamHostBindings` contract.
+- [Automated releases](doc/releasing.md) — CI, release tags, and pub.dev setup.
 
 ## Demo
 

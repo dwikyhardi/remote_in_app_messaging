@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../domain/entities/iam_content.dart';
 import 'iam_body_dispatcher.dart';
