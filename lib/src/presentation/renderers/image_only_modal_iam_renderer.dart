@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../domain/entities/iam_content.dart';
 import '../widgets/iam_image.dart';
@@ -121,7 +121,7 @@ class _CloseChip extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: IconButton(
         icon: const Icon(Icons.close, color: Colors.white),
-        tooltip: 'Close',
+        tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
         splashRadius: 20,
         iconSize: 20,
         onPressed: onTap,

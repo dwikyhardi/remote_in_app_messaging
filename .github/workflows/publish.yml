@@ -1,0 +1,45 @@
+name: Publish
+
+on:
+  push:
+    tags:
+      - 'remote_in_app_messaging-v[0-9]+.[0-9]+.[0-9]+'
+      - 'remote_in_app_messaging-v[0-9]+.[0-9]+.[0-9]+-*'
+
+concurrency:
+  group: pub-publish
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Verify tag version and main ancestry
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          version="$(awk '/^version:/ {print $2; exit}' pubspec.yaml)"
+          test "$RELEASE_TAG" = "remote_in_app_messaging-v$version"
+          git merge-base --is-ancestor HEAD origin/main
+      - uses: ./.github/actions/setup-flutter
+      - run: fvm flutter pub get
+      - run: fvm flutter analyze --no-pub
+      - run: fvm flutter test --no-pub
+      - name: Analyze example
+        run: fvm flutter analyze --no-pub
+        working-directory: example
+      - name: Authenticate to pub.dev with OIDC
+        uses: dart-lang/setup-dart@v1
+      - name: Publish package
+        run: fvm flutter pub publish --force

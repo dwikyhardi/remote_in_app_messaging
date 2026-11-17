@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../domain/entities/iam_content.dart';
 import '../../domain/entities/iam_cta.dart';
@@ -186,17 +186,13 @@ class IamCtaButton extends StatelessWidget {
 
     if (isPrimary) {
       return ElevatedButton(
-        style: primaryStyle == null
-            ? baseStyle
-            : baseStyle.merge(primaryStyle),
+        style: primaryStyle?.merge(baseStyle) ?? baseStyle,
         onPressed: effectiveOnPressed,
         child: child,
       );
     }
     return TextButton(
-      style: secondaryStyle == null
-          ? baseStyle
-          : baseStyle.merge(secondaryStyle),
+      style: secondaryStyle?.merge(baseStyle) ?? baseStyle,
       onPressed: effectiveOnPressed,
       child: child,
     );

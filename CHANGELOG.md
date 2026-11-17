@@ -1,6 +1,21 @@
 ## Unreleased
 
-### 0.1.1
+## 0.2.0 — 2026-11-18
+
+- Add GitHub Actions CI and automatic tag/pub.dev release workflows, with
+  FVM-pinned verification and OIDC publishing. See `doc/releasing.md` for setup.
+- Migrate all renderers, shared UI widgets, public Material style parameters,
+  example, and widget tests to `material_ui: ^1.11.1`, with
+  `cupertino_ui: ^1.1.7` for adaptive UI. Modern `MaterialApp` themes and
+  localizations work without `MaterialUiCompatibilityBridge`.
+- Localize default close tooltips while preserving widget and JSON overrides.
+- Fix CTA `ButtonStyle` merge order so explicit primary/secondary styles take
+  precedence over JSON colors and built-in defaults, as documented.
+- **Breaking:** require Flutter >=3.47 (Dart >=3.13) and extracted Material UI
+  types for public widget styling arguments. Existing JSON and host bindings
+  remain compatible. Pin development to FVM Flutter 3.50.0.
+
+## 0.1.1
 - `IamBody` now renders the image slot through `buildIamImage`, gaining native support for asset paths, `http(s)` URLs and `.svg` (raster + vector) — previously it only handled `Image.network`. Behavior for `imageUrl` pointing at a network raster image is unchanged; `imageBuilder` and `imageErrorBuilder` overrides are still honored.
 - `buildIamImage` exposes an optional `errorBuilder` parameter (raster paths only); SVG rendering and existing call sites are unaffected.
 
